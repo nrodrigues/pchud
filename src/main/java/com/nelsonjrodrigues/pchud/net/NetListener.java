@@ -3,6 +3,7 @@ package com.nelsonjrodrigues.pchud.net;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Listens for Project Cars UDP messages on the network.
@@ -14,21 +15,22 @@ public class NetListener implements AutoCloseable {
 
     private static final int MAX_PACKET_SIZE = 1367;
 
-    private DatagramSocket ms;
+    private DatagramSocket socket;
     private PcMessageParser parser;
 
     public NetListener() throws IOException {
-        this.ms = new DatagramSocket(5606);
+        this.socket = new DatagramSocket(5606);
         this.parser = new PcMessageParser();
     }
 
-    public PcMessage listenForMessage() throws IOException {
+    public PcMessage listenForMessage(long timeout, TimeUnit unit) throws IOException {
         byte[] buffer = new byte[MAX_PACKET_SIZE];
 
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-        ms.receive(packet);
+        socket.setSoTimeout((int) unit.toMillis(timeout));
+        socket.receive(packet);
 
-        return parser.fromByteArray(packet.getData(), packet.getOffset(), packet.getLength());
+        return parser.fromByteArray(packet.getData(), packet.getOffset());
     }
 
     /**
@@ -39,7 +41,7 @@ public class NetListener implements AutoCloseable {
      */
     @Override
     public void close() {
-        ms.close();
+        socket.close();
     }
 
 }

@@ -2,19 +2,20 @@ package com.nelsonjrodrigues.pchud;
 
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.nelsonjrodrigues.pchud.net.MessageListener;
 import com.nelsonjrodrigues.pchud.net.NetThread;
+import com.nelsonjrodrigues.pchud.net.PcMessage;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class PcHud {
-
-    private static final Logger log = LoggerFactory.getLogger(PcHud.class);
 
     public static void main(String[] args) {
 
         try {
             NetThread netThread = new NetThread();
+            netThread.addMessageListener(new LogMessageListener());
             netThread.start();
 
             netThread.join();
@@ -22,6 +23,21 @@ public class PcHud {
             log.error(e.getMessage(), e);
         }
         log.debug("Exiting");
+
+    }
+
+    @Slf4j
+    private static class LogMessageListener implements MessageListener {
+
+        @Override
+        public void onMessage(PcMessage message) {
+            log.debug("OnMessage {}", message);
+        }
+
+        @Override
+        public void onTimeout() {
+            log.debug("OnTimeout");
+        }
 
     }
 
