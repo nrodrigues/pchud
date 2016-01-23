@@ -1,9 +1,5 @@
 package com.nelsonjrodrigues.pchud.net;
 
-import static java.lang.Byte.toUnsignedInt;
-
-
-
 public class Extractor {
 
     private byte[] buffer;
@@ -20,7 +16,7 @@ public class Extractor {
         if (offset > length) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        return toUnsignedInt(buffer[offset++]);
+        return Byte.toUnsignedInt(buffer[offset++]);
     }
 
     public int u16() {
