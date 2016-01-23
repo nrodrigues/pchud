@@ -16,6 +16,10 @@ public class PcHud {
 
     public static void main(String[] args) {
 
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+            log.error("Uncaught thread exception, exiting", t.getName(), e);
+            System.exit(-1);
+        });
 
         Worlds worlds = new Worlds();
         worlds.addPropertyChangeListener(evt -> {
