@@ -2,17 +2,24 @@ package com.nelsonjrodrigues.pchud.net;
 
 import static java.lang.Byte.toUnsignedInt;
 
+
+
 public class Extractor {
 
     private byte[] buffer;
     private int offset;
+    private int length;
 
-    public Extractor(byte[] buffer, int offset) {
+    public Extractor(byte[] buffer, int offset, int length) {
         this.buffer = buffer;
         this.offset = offset;
+        this.length = length;
     }
 
     public int u8() {
+        if (offset > length) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
         return toUnsignedInt(buffer[offset++]);
     }
 

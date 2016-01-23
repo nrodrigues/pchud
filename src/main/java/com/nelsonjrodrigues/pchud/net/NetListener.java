@@ -5,6 +5,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.concurrent.TimeUnit;
 
+
+
 /**
  * Listens for Project Cars UDP messages on the network.
  *
@@ -30,13 +32,12 @@ public class NetListener implements AutoCloseable {
         socket.setSoTimeout((int) unit.toMillis(timeout));
         socket.receive(packet);
 
-        return parser.fromByteArray(packet.getData(), packet.getOffset());
+        return parser.fromDatagramPacket(packet);
     }
 
     /**
-     * Closes the underlying socket and interrupts a
-     * {@link NetListener#listenForMessage()} call. May be called from a
-     * different thread.
+     * Closes the underlying socket and interrupts a {@link NetListener#listenForMessage()} call.
+     * May be called from a different thread.
      *
      */
     @Override

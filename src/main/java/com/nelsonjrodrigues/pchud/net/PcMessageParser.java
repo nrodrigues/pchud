@@ -1,14 +1,37 @@
 package com.nelsonjrodrigues.pchud.net;
 
+import java.net.DatagramPacket;
+
+import com.nelsonjrodrigues.pchud.net.PcMessage.TelemetryData;
+
+
+
 public class PcMessageParser {
 
-    public PcMessage fromByteArray(byte[] buffer, int offset) {
-        Extractor e = new Extractor(buffer, offset);
+    public PcMessage fromDatagramPacket(DatagramPacket packet) {
+        Extractor e = new Extractor(packet.getData(), packet.getOffset(), packet.getLength());
 
         PcMessage message = new PcMessage();
 
+        message.sourceIpAddress(packet.getAddress().getHostAddress());
+
         message.buildVersionNumber(e.u16())
-               .packetType(e.u8() & 0x3);
+               .packetType(PacketType.fromCode(e.u8() & 0x3));
+
+        switch (message.packetType()) {
+            case TELEMETRY_DATA:
+                message.telemetryData(telemetryData(e));
+                break;
+
+            default:
+                break;
+        }
+
+        return message;
+    }
+
+    private TelemetryData telemetryData(Extractor e) {
+        TelemetryData message = new TelemetryData();
 
         message.gameSessionState(e.u8());
 
