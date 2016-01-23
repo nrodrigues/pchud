@@ -13,17 +13,19 @@ public class Extractor {
     }
 
     public int u8() {
-        int u8 = toUnsignedInt(buffer[offset]);
-        offset += 1;
-
-        return u8;
+        return toUnsignedInt(buffer[offset++]);
     }
 
     public int u16() {
-        int u16 = (toUnsignedInt(buffer[offset + 1]) << 8) + toUnsignedInt(buffer[offset]);
-        offset += 2;
+        return u8() ^
+               u8() << 8;
+    }
 
-        return u16;
+    public float f32() {
+        return Float.intBitsToFloat(u8() ^
+                                    u8() << 8 ^
+                                    u8() << 16 ^
+                                    u8() << 24);
     }
 
 }
