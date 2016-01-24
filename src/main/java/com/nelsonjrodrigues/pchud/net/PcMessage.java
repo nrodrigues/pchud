@@ -16,6 +16,21 @@ public class PcMessage {
 
     private TelemetryData telemetryData;
 
+    public static abstract class Constants {
+        public static final int VEC_X = 0;
+        public static final int VEC_Y = 1;
+        public static final int VEC_Z = 2;
+        public static final int VEC_MAX = 3;
+
+        public static final int TYRE_FRONT_LEFT = 0;
+        public static final int TYRE_FRONT_RIGHT = 1;
+        public static final int TYRE_REAR_LEFT = 2;
+        public static final int TYRE_REAR_RIGHT = 3;
+        public static final int TYRE_MAX = 4;
+
+        public static final int PARTICIPANT_INFO_MAX = 56;
+    }
+
     @Data
     @Accessors(fluent = true)
     public static class TelemetryData {
@@ -59,6 +74,93 @@ public class PcMessage {
         private float worldFastestSector1Time;
         private float worldFastestSector2Time;
         private float worldFastestSector3Time;
+
+        // Joypad
+        private int joypad;
+
+        // Flags
+        private int highestFlag;
+
+        // Pit info
+        private int pitModeSchedule;
+
+        // Car state
+        private int oilTempCelsius;
+        private int oilPressureKPa;
+        private int waterTempCelsius;
+        private int waterPressureKPa;
+        private int fuelPressureKPa;
+        private int carFlags;
+        private int fuelCapacity;
+        private int brake;
+        private int throttle;
+        private int clutch;
+        private int steering;
+        private float fuelLevel;
+        private float speed;
+        private int rpm;
+        private int maxRpm;
+        private int gearNumGears;
+        private int boostAmount;
+        private int enforcedPitStopLap;
+        private int crashState;
+
+        private float odometerKM;
+        private float[] orientation;
+        private float[] localVelocity;
+        private float[] worldVelocity;
+        private float[] angularVelocity;
+        private float[] localAccelaration;
+        private float[] worldAccelaration;
+        private float[] extentsCentre;
+
+        // Wheels / Tyres
+        private int[] tyreFlags;
+        private int[] terrain;
+        private float[] tyreY;
+        private float[] tyreRPS;
+        private float[] tyreSlipSpeed;
+        private int[] tyreTemp;
+        private int[] tyreGrip;
+        private float[] tyreHeightAboveGround;
+        private float[] tyreLateralStiffness;
+        private int[] tyreWear;
+        private int[] brakeDamage;
+        private int[] suspensionDamage;
+        private int[] brakeTempCelsius;
+        private int[] tyreTreadTemp;
+        private int[] tyreLayerTemp;
+        private int[] tyreCarcassTemp;
+        private int[] tyreRimTemp;
+        private int[] tyreInternalAirTemp;
+        private float[] wheelLocalPositionY;
+        private float[] rideHeight;
+        private float[] suspensionTravel;
+        private float[] suspensionVelocity;
+        private int[] airPressure;
+
+        // Extras
+        private float engineSpeed;
+        private float engineTorque;
+
+        // Car damage
+        private int aeroDamage;
+        private int engineDamage;
+
+        // Weather
+        private int ambientTemperature;
+        private int trackTemperature;
+        private int rainDensity;
+        private int windSpeed;
+        private int windDirectionX;
+        private int windDirectionY;
+
+        private ParticipantInfo[] participantInfo;
+
+        private float trackLength;
+        private int[] wings;
+        private int dPad;
+
     }
 
     @Data
