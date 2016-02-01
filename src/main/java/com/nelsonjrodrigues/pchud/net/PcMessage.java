@@ -15,7 +15,7 @@ public class PcMessage {
     private PacketType packetType;
 
     private TelemetryData telemetryData;
-    
+
     private ParticipantInfoStrings participantInfoStrings;
 
     private ParticipantInfoStringsAdditional participantInfoStringsAdditional;

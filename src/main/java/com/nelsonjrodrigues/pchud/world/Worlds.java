@@ -148,8 +148,8 @@ public class Worlds implements MessageListener {
            .localVelocity(parseVector(td.localVelocity()))
            .worldVelocity(parseVector(td.worldVelocity()))
            .angularVelocity(parseVector(td.angularVelocity()))
-           .localAccelaration(parseVector(td.localAccelaration()))
-           .worldAccelaration(parseVector(td.worldAccelaration()))
+           .localAccelaration(parseVector(td.localAcceleration()))
+           .worldAccelaration(parseVector(td.worldAcceleration()))
            .extentsCentre(parseVector(td.extentsCentre()));
 
         car.tyreFrontLeft(parseTyre(td, Constants.TYRE_FRONT_LEFT))
