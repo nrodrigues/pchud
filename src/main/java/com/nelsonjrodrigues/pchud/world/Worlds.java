@@ -6,6 +6,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nelsonjrodrigues.pchud.net.MessageListener;
 import com.nelsonjrodrigues.pchud.net.PcMessage;
 import com.nelsonjrodrigues.pchud.net.PcMessage.Constants;
@@ -18,6 +19,7 @@ import lombok.Data;
 @Data
 public class Worlds implements MessageListener {
 
+    @JsonIgnore
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     private Map<String, World> worlds = new HashMap<>();

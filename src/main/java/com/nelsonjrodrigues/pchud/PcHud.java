@@ -22,9 +22,9 @@ public class PcHud {
         });
 
         Worlds worlds = new Worlds();
-        worlds.addPropertyChangeListener(evt -> {
-            log.debug("{}", worlds);
-        });
+
+        DebugPanel debugPanel = new DebugPanel(worlds);
+        debugPanel.setVisible(true);
 
         try {
             NetThread netThread = new NetThread();
