@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nelsonjrodrigues.pchud.net.MessageListener;
 import com.nelsonjrodrigues.pchud.net.PcMessage;
 import com.nelsonjrodrigues.pchud.net.PcMessage.Constants;
+import com.nelsonjrodrigues.pchud.net.PcMessage.ParticipantInfoStrings;
+import com.nelsonjrodrigues.pchud.net.PcMessage.ParticipantInfoStringsAdditional;
 import com.nelsonjrodrigues.pchud.net.PcMessage.TelemetryData;
 
 import lombok.Data;
@@ -59,7 +61,12 @@ public class Worlds implements MessageListener {
             case TELEMETRY_DATA:
                 parseTelemetryData(world, message.telemetryData());
                 break;
-
+            case PARTICIPANT_STRINGS:
+                parseParticipantStringsData(world, message.participantInfoStrings());
+                break;
+            case PARTICIPANT_STRING_ADDITIONAL:
+                parseParticipantStringsAdditionalData(world, message.participantInfoStringsAdditional());
+                break;
             default:
                 break;
 
@@ -74,6 +81,51 @@ public class Worlds implements MessageListener {
             world.worldState(WorldState.WORLD_OFFLINE);
         }
         firePropertyChange();
+    }
+
+    private void parseParticipantStringsData(World world, ParticipantInfoStrings pis) {
+        String[] names = pis.name();
+        for (int i = 0; i < names.length; i++) {
+            String name = names[i];
+
+            ParticipantInfo pi = world.getParticipantInfoItem(i);
+
+            if (pi == null) {
+                pi = new ParticipantInfo();
+                world.participantInfo().add(pi);
+            }
+
+            pi.setName(name);
+        }
+
+        ParticipantInfo vpi = world.viewedParticipant();
+
+        if (vpi != null) {
+            vpi.setCarName(pis.carName());
+            vpi.setCarClassName(pis.carClassName());
+            vpi.setTrackLocation(pis.trackLocation());
+            vpi.setTrackVariation(pis.trackVariation());
+        }
+    }
+
+    private void parseParticipantStringsAdditionalData(World world,
+                                                       ParticipantInfoStringsAdditional pisa)
+    {
+        int offset = pisa.offset();
+        String[] names = pisa.name();
+
+        for (int i = 0; i < names.length; i++) {
+            String name = names[i];
+            int participantNumber = (offset + 1) * i;
+            ParticipantInfo pi = world.getParticipantInfoItem(participantNumber);
+
+            if (pi == null) {
+                pi = new ParticipantInfo();
+                world.participantInfo().add(pi);
+            }
+            pi.setName(name);
+        }
+
     }
 
     private void parseTelemetryData(World world, TelemetryData td) {

@@ -10,6 +10,7 @@ import com.nelsonjrodrigues.pchud.net.PcMessage.ParticipantInfo;
 import com.nelsonjrodrigues.pchud.net.PcMessage.ParticipantInfoStrings;
 import com.nelsonjrodrigues.pchud.net.PcMessage.ParticipantInfoStringsAdditional;
 import com.nelsonjrodrigues.pchud.net.PcMessage.TelemetryData;
+import com.nelsonjrodrigues.pchud.net.exceptions.InvalidPacketTypeException;
 
 
 
@@ -22,8 +23,9 @@ public class PcMessageParser {
 
         message.sourceIpAddress(packet.getAddress().getHostAddress());
 
+        int packeTypeCode = e.u8() & 0x3;
         message.buildVersionNumber(e.u16())
-               .packetType(PacketType.fromCode(e.u8() & 0x3));
+               .packetType(PacketType.fromCode(packeTypeCode));
 
         switch (message.packetType()) {
             case TELEMETRY_DATA:
@@ -36,7 +38,7 @@ public class PcMessageParser {
                 message.participantInfoStringsAdditional(participantInfoStringsAdditional(e));
                 break;
             default:
-                break;
+                throw new InvalidPacketTypeException("Received an invalid packet type: " + packeTypeCode);
         }
 
         return message;

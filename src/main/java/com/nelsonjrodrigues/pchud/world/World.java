@@ -46,4 +46,10 @@ public class World {
 
     private Car car;
 
+    public ParticipantInfo getParticipantInfoItem(int participantNumber) {
+        if (participantInfo != null && participantInfo.size() < participantNumber) {
+            participantInfo.get(participantNumber);
+        }
+        return null;
+    }
 }
