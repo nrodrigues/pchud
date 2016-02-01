@@ -28,6 +28,10 @@ public class PcMessage {
         public static final int TYRE_REAR_RIGHT = 3;
         public static final int TYRE_MAX = 4;
 
+        public static final int TYRE_ATTACHED = (1 << 0);
+        public static final int TYRE_INFLATED = (1 << 1);
+        public static final int TYRE_IS_ON_GROUND = (1 << 2);
+
         public static final int PARTICIPANT_INFO_MAX = 56;
     }
 

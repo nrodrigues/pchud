@@ -44,4 +44,9 @@ public class World {
     private float worldFastestSector2Time;
     private float worldFastestSector3Time;
 
+    private Tyre tyreFrontLeft;
+    private Tyre tyreFrontRight;
+    private Tyre tyreRearLeft;
+    private Tyre tyreRearRight;
+
 }
