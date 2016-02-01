@@ -24,7 +24,7 @@ public class PcMessageParser {
         message.sourceIpAddress(packet.getAddress().getHostAddress());
 
         int packeTypeCode = e.u8() & 0x3;
-		message.buildVersionNumber(e.u16())
+        message.buildVersionNumber(e.u16())
                .packetType(PacketType.fromCode(packeTypeCode));
 
         switch (message.packetType()) {
@@ -35,23 +35,24 @@ public class PcMessageParser {
                 message.participantInfoStrings(participantInfoStrings(e));
                 break;
             case PARTICIPANT_STRING_ADDITIONAL:
-            	message.participantInfoStringsAdditional(participantInfoStringsAdditional(e));
+                message.participantInfoStringsAdditional(participantInfoStringsAdditional(e));
                 break;
             default:
-            	throw new InvalidPacketTypeException("Received an invalid packet type: " + packeTypeCode);
+                throw new InvalidPacketTypeException("Received an invalid packet type: " + packeTypeCode);
         }
 
         return message;
     }
 
     private ParticipantInfoStringsAdditional participantInfoStringsAdditional(Extractor e) {
-    	ParticipantInfoStringsAdditional pisa = new ParticipantInfoStringsAdditional();
-    	
-    	pisa.offset(e.u8());
-    	pisa.name(e.str64(16));
-    	
-    	return pisa;
+        ParticipantInfoStringsAdditional pisa = new ParticipantInfoStringsAdditional();
+
+        pisa.offset(e.u8());
+        pisa.name(e.str64(16));
+
+        return pisa;
     }
+
     private ParticipantInfoStrings participantInfoStrings(Extractor e) {
         ParticipantInfoStrings pis = new ParticipantInfoStrings();
 

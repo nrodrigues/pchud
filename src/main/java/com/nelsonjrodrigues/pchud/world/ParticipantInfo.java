@@ -17,5 +17,10 @@ public class ParticipantInfo {
     private int lapsCompleted;
     private int currentLap;
     private int currentSector;
+    
+    private String carName;
+    private String carClassName;
+    private String trackLocation;
+    private String trackVariation;
 
 }
