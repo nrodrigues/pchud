@@ -110,8 +110,8 @@ public class PcMessage {
         private float[] localVelocity;
         private float[] worldVelocity;
         private float[] angularVelocity;
-        private float[] localAccelaration;
-        private float[] worldAccelaration;
+        private float[] localAcceleration;
+        private float[] worldAcceleration;
         private float[] extentsCentre;
 
         // Wheels / Tyres
