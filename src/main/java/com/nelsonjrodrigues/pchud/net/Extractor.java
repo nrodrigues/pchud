@@ -1,9 +1,5 @@
 package com.nelsonjrodrigues.pchud.net;
 
-import java.util.Arrays;
-
-
-
 public class Extractor {
 
     private byte[] buffer;

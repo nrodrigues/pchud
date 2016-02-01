@@ -23,9 +23,10 @@ public class PcMessageParser {
 
         message.sourceIpAddress(packet.getAddress().getHostAddress());
 
+        message.buildVersionNumber(e.u16());
+
         int packeTypeCode = e.u8() & 0x3;
-        message.buildVersionNumber(e.u16())
-               .packetType(PacketType.fromCode(packeTypeCode));
+        message.packetType(PacketType.fromCode(packeTypeCode));
 
         switch (message.packetType()) {
             case TELEMETRY_DATA:

@@ -1,5 +1,6 @@
 package com.nelsonjrodrigues.pchud.world;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -19,7 +20,7 @@ public class World {
     private RaceState raceState;
 
     private ParticipantInfo viewedParticipant;
-    private List<ParticipantInfo> participantInfo;
+    private List<ParticipantInfo> participantInfo = new ArrayList<>();
 
     private boolean lapTimeInvalidated;
     private float bestLapTime;
@@ -47,8 +48,8 @@ public class World {
     private Car car;
 
     public ParticipantInfo getParticipantInfoItem(int participantNumber) {
-        if (participantInfo != null && participantInfo.size() < participantNumber) {
-            participantInfo.get(participantNumber);
+        if (participantInfo != null && participantInfo.size() > participantNumber) {
+            return participantInfo.get(participantNumber);
         }
         return null;
     }

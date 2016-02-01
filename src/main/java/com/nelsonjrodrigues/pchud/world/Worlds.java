@@ -139,6 +139,8 @@ public class Worlds implements MessageListener {
         world.raceState(RaceState.fromCode(raceStateFlags & 0x7));
         world.lapTimeInvalidated((raceStateFlags & 0x8) != 0);
 
+        world.viewedParticipant(world.getParticipantInfoItem(td.viewedParticipantIndex()));
+
         world.car(parseCar(td));
     }
 
