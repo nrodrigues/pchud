@@ -7,6 +7,8 @@ import static com.nelsonjrodrigues.pchud.net.PcMessage.Constants.VEC_MAX;
 import java.net.DatagramPacket;
 
 import com.nelsonjrodrigues.pchud.net.PcMessage.ParticipantInfo;
+import com.nelsonjrodrigues.pchud.net.PcMessage.ParticipantInfoStrings;
+import com.nelsonjrodrigues.pchud.net.PcMessage.ParticipantInfoStringsAdditional;
 import com.nelsonjrodrigues.pchud.net.PcMessage.TelemetryData;
 
 
@@ -27,12 +29,37 @@ public class PcMessageParser {
             case TELEMETRY_DATA:
                 message.telemetryData(telemetryData(e));
                 break;
-
+            case PARTICIPANT_STRINGS:
+                message.participantInfoStrings(participantInfoStrings(e));
+                break;
+            case PARTICIPANT_STRING_ADDITIONAL:
+            	message.participantInfoStringsAdditional(participantInfoStringsAdditional(e));
+                break;
             default:
                 break;
         }
 
         return message;
+    }
+
+    private ParticipantInfoStringsAdditional participantInfoStringsAdditional(Extractor e) {
+    	ParticipantInfoStringsAdditional pisa = new ParticipantInfoStringsAdditional();
+    	
+    	pisa.offset(e.u8());
+    	pisa.name(e.str64(16));
+    	
+    	return pisa;
+    }
+    private ParticipantInfoStrings participantInfoStrings(Extractor e) {
+        ParticipantInfoStrings pis = new ParticipantInfoStrings();
+
+        pis.carName(e.str64());
+        pis.carClassName(e.str64());
+        pis.trackLocation(e.str64());
+        pis.trackVariation(e.str64());
+        pis.name(e.str64(16));
+
+        return pis;
     }
 
     private TelemetryData telemetryData(Extractor e) {
@@ -104,8 +131,8 @@ public class PcMessageParser {
           .localVelocity(e.f32(VEC_MAX))
           .worldVelocity(e.f32(VEC_MAX))
           .angularVelocity(e.f32(VEC_MAX))
-          .localAccelaration(e.f32(VEC_MAX))
-          .worldAccelaration(e.f32(VEC_MAX))
+          .localAcceleration(e.f32(VEC_MAX))
+          .worldAcceleration(e.f32(VEC_MAX))
           .extentsCentre(e.f32(VEC_MAX));
 
         td.tyreFlags(e.u8(TYRE_MAX))
