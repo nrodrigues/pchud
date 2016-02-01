@@ -1,5 +1,9 @@
 package com.nelsonjrodrigues.pchud.net;
 
+import java.util.Arrays;
+
+
+
 public class Extractor {
 
     private byte[] buffer;
@@ -77,19 +81,28 @@ public class Extractor {
 
     public String[] str64(int length) {
         String[] strings = new String[length];
-        for(int i=0; i<length; i ++) {
+        for (int i = 0; i < length; i++) {
             strings[i] = str64();
         }
         return strings;
     }
+
     public String str64() {
         return str(64);
     }
+
     public String str(int length) {
         char[] charArr = new char[length];
+        int arrSize = length;
         for (int i = 0; i < length; i++) {
             charArr[i] = (char) u8();
+            if (charArr[i] == '\0') {
+                arrSize = i;
+                break;
+            }
         }
-        return new String(charArr);
+
+        return new String(charArr, 0, arrSize);
     }
+
 }
