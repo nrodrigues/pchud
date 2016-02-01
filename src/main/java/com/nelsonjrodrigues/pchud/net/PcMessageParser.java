@@ -33,7 +33,7 @@ public class PcMessageParser {
                 message.participantInfoStrings(participantInfoStrings(e));
                 break;
             case PARTICIPANT_STRING_ADDITIONAL:
-            	message.participantInfoStringsAdditional(participantInfoStringsAdditional(e));
+                message.participantInfoStringsAdditional(participantInfoStringsAdditional(e));
                 break;
             default:
                 break;
@@ -43,13 +43,14 @@ public class PcMessageParser {
     }
 
     private ParticipantInfoStringsAdditional participantInfoStringsAdditional(Extractor e) {
-    	ParticipantInfoStringsAdditional pisa = new ParticipantInfoStringsAdditional();
-    	
-    	pisa.offset(e.u8());
-    	pisa.name(e.str64(16));
-    	
-    	return pisa;
+        ParticipantInfoStringsAdditional pisa = new ParticipantInfoStringsAdditional();
+
+        pisa.offset(e.u8());
+        pisa.name(e.str64(16));
+
+        return pisa;
     }
+
     private ParticipantInfoStrings participantInfoStrings(Extractor e) {
         ParticipantInfoStrings pis = new ParticipantInfoStrings();
 
@@ -151,6 +152,7 @@ public class PcMessageParser {
           .tyreTreadTemp(e.u16(TYRE_MAX))
           .tyreLayerTemp(e.u16(TYRE_MAX))
           .tyreCarcassTemp(e.u16(TYRE_MAX))
+          .tyreRimTemp(e.u16(TYRE_MAX))
           .tyreInternalAirTemp(e.u16(TYRE_MAX))
           .wheelLocalPositionY(e.f32(TYRE_MAX))
           .rideHeight(e.f32(TYRE_MAX))
