@@ -15,6 +15,10 @@ public class PcMessage {
     private PacketType packetType;
 
     private TelemetryData telemetryData;
+    
+    private ParticipantInfoStrings participantInfoStrings;
+
+    private ParticipantInfoStringsAdditional participantInfoStringsAdditional;
 
     public static abstract class Constants {
         public static final int VEC_X = 0;
@@ -110,8 +114,8 @@ public class PcMessage {
         private float[] localVelocity;
         private float[] worldVelocity;
         private float[] angularVelocity;
-        private float[] localAccelaration;
-        private float[] worldAccelaration;
+        private float[] localAcceleration;
+        private float[] worldAcceleration;
         private float[] extentsCentre;
 
         // Wheels / Tyres
@@ -187,7 +191,7 @@ public class PcMessage {
 
     @Data
     @Accessors(fluent = true)
-    public static class ParticipantInforStringsAdditional {
+    public static class ParticipantInfoStringsAdditional {
         private int offset;
         private String[] name;
     }
