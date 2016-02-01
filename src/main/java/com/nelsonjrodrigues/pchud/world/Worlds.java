@@ -85,10 +85,85 @@ public class Worlds implements MessageListener {
         world.raceState(RaceState.fromCode(raceStateFlags & 0x7));
         world.lapTimeInvalidated((raceStateFlags & 0x8) != 0);
 
-        world.tyreFrontLeft(parseTyre(td, Constants.TYRE_FRONT_LEFT));
-        world.tyreFrontRight(parseTyre(td, Constants.TYRE_FRONT_RIGHT));
-        world.tyreRearLeft(parseTyre(td, Constants.TYRE_REAR_LEFT));
-        world.tyreRearRight(parseTyre(td, Constants.TYRE_REAR_RIGHT));
+        world.car(parseCar(td));
+    }
+
+    private Car parseCar(TelemetryData td) {
+        Car car = new Car();
+
+        car.oilTempCelsius(td.oilTempCelsius())
+           .oilPressureKPa(td.oilPressureKPa())
+           .waterTempCelsius(td.waterTempCelsius())
+           .waterPressureKPa(td.waterPressureKPa())
+           .fuelPressureKPa(td.fuelPressureKPa());
+
+        car.carFlags(EnumSet.noneOf(CarFlags.class));
+        int carFlags = td.carFlags();
+
+        if ((carFlags & Constants.CAR_HEADLIGHT) != 0) {
+            car.carFlags().add(CarFlags.CAR_HEADLIGHT);
+        }
+        if ((carFlags & Constants.CAR_ENGINE_ACTIVE) != 0) {
+            car.carFlags().add(CarFlags.CAR_ENGINE_ACTIVE);
+        }
+        if ((carFlags & Constants.CAR_ENGINE_WARNING) != 0) {
+            car.carFlags().add(CarFlags.CAR_ENGINE_WARNING);
+        }
+        if ((carFlags & Constants.CAR_SPEED_LIMITER) != 0) {
+            car.carFlags().add(CarFlags.CAR_SPEED_LIMITER);
+        }
+        if ((carFlags & Constants.CAR_ABS) != 0) {
+            car.carFlags().add(CarFlags.CAR_ABS);
+        }
+        if ((carFlags & Constants.CAR_HANDBRAKE) != 0) {
+            car.carFlags().add(CarFlags.CAR_HANDBRAKE);
+        }
+
+        car.fuelCapacity(td.fuelCapacity())
+           .brake(td.brake())
+           .throttle(td.throttle())
+           .clutch(td.clutch())
+           .steering(td.steering())
+           .fuelLevel(td.fuelLevel())
+           .speed(td.speed())
+           .rpm(td.rpm())
+           .maxRpm(td.maxRpm());
+
+        int gearNumGears = td.gearNumGears();
+
+        car.gear(gearNumGears & 0xf)
+           .numGears(gearNumGears >> 4)
+           .boostAmount(td.boostAmount())
+           .enforcedPitStopLap(td.enforcedPitStopLap());
+
+        car.engineSpeed(td.engineSpeed())
+           .engineTorque(td.engineTorque());
+
+        car.crashState(CrashState.fromCode(td.crashState()))
+           .aeroDamage(td.aeroDamage())
+           .engineDamage(td.engineDamage());
+
+        car.odometerKM(td.odometerKM())
+           .orientation(parseVector(td.orientation()))
+           .localVelocity(parseVector(td.localVelocity()))
+           .worldVelocity(parseVector(td.worldVelocity()))
+           .angularVelocity(parseVector(td.angularVelocity()))
+           .localAccelaration(parseVector(td.localAccelaration()))
+           .worldAccelaration(parseVector(td.worldAccelaration()))
+           .extentsCentre(parseVector(td.extentsCentre()));
+
+        car.tyreFrontLeft(parseTyre(td, Constants.TYRE_FRONT_LEFT))
+           .tyreFrontRight(parseTyre(td, Constants.TYRE_FRONT_RIGHT))
+           .tyreRearLeft(parseTyre(td, Constants.TYRE_REAR_LEFT))
+           .tyreRearRight(parseTyre(td, Constants.TYRE_REAR_RIGHT));
+
+        return car;
+    }
+
+    private Vector parseVector(float[] vector) {
+        return new Vector(vector[Constants.VEC_X],
+                          vector[Constants.VEC_Y],
+                          vector[Constants.VEC_Z]);
     }
 
     private Tyre parseTyre(TelemetryData td, int tyre) {

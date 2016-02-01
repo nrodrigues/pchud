@@ -36,6 +36,13 @@ public class PcMessage {
         public static final int TYRE_INFLATED = (1 << 1);
         public static final int TYRE_IS_ON_GROUND = (1 << 2);
 
+        public static final int CAR_HEADLIGHT = (1 << 0);
+        public static final int CAR_ENGINE_ACTIVE = (1 << 1);
+        public static final int CAR_ENGINE_WARNING = (1 << 2);
+        public static final int CAR_SPEED_LIMITER = (1 << 3);
+        public static final int CAR_ABS = (1 << 4);
+        public static final int CAR_HANDBRAKE = (1 << 5);
+
         public static final int PARTICIPANT_INFO_MAX = 56;
     }
 
